@@ -8,7 +8,7 @@ RSpec.describe UsersController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {name: 'Michail', fullname: 'Michail Jackson', gae: '45'}
   }
 
   let(:valid_session) { {} }
@@ -61,7 +61,7 @@ RSpec.describe UsersController, type: :controller do
 
       it "renders a JSON response with the new user" do
 
-        post :create, params: {user: valid_attributes}, session: valid_session
+        post :create, params: {user: valid_attributes}
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
         expect(response.location).to eq(user_url(User.last))
@@ -71,7 +71,7 @@ RSpec.describe UsersController, type: :controller do
     context "with invalid params" do
       it "renders a JSON response with errors for the new user" do
 
-        post :create, params: {user: invalid_attributes}, session: valid_session
+        post :create, params: {user: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
