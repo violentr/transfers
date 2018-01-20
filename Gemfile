@@ -9,6 +9,7 @@ gem 'sqlite3'
 gem 'puma', '~> 3.0'
 gem 'faker'
 gem 'active_model_serializers'
+gem 'bcrypt'
 #
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
@@ -28,6 +29,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'byebug', platform: :mri
+  gem 'guard-rspec'
 end
 
 group :development do
