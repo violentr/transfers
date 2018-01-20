@@ -39,9 +39,15 @@ RSpec.describe UsersController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      user = User.create! valid_attributes
-      get :show, params: {id: user.to_param}, session: valid_session
+      user = create(:user)
+      get :show, params: {id: user.to_param}
       expect(response).to be_success
+    end
+    it "returns User attributes" do
+      user = create(:user)
+      get :show, params: {id: user.to_param}
+      output = json_parser(response.body)
+      expect(output.keys).to eq(user.attributes.keys)
     end
   end
 
