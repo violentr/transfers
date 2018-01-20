@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  constraits = OpenStruct.new(first_name: 20, last_name: 20, address_line_1: 50, dob: Date)
+  model_attributes = [:first_name, :last_name, :address_line_1]
   it { is_expected.to respond_to(:first_name) }
   it { is_expected.to respond_to(:last_name) }
   it { is_expected.to respond_to(:address_line_1) }
   it { is_expected.to respond_to(:dob) }
 
-  describe "User" do
-    constraits = OpenStruct.new(first_name: 20, last_name: 20, address_line_1: 50, dob: Date)
-    model_attributes = [:first_name, :last_name, :address_line_1]
+  describe "model constraits" do
 
     context "when valid " do
       before do
