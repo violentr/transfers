@@ -26,7 +26,7 @@ class TransfersController < ApplicationController
 
   # PATCH/PUT /transfers/1
   def update
-    if @transfer.update(transfer_params)
+    if transfer_params.present? && @transfer.update(transfer_params)
       render json: @transfer
     else
       render json: @transfer.errors, status: :unprocessable_entity

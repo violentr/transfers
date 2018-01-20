@@ -124,9 +124,10 @@ RSpec.describe TransfersController, type: :controller do
 
     context "with invalid params" do
       it "renders a JSON response with errors for the transfer" do
-        transfer = Transfer.create! valid_attributes
+        user = create(:user)
+        transfer = create(:transfer, user_id: user.id)
 
-        put :update, params: {id: transfer.to_param, transfer: invalid_attributes}, session: valid_session
+        put :update, params: {user_id: user.id, id: transfer.to_param, transfer: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
