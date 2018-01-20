@@ -1,32 +1,33 @@
 require "rails_helper"
 
 RSpec.describe TransfersController, type: :routing do
-  describe "routing" do
-
+  xdescribe "routing" do
+  let(:user) {create(:user) }
+  let(:transfer) {create(:transfer, user_id: user.id) }
+  let(:path) { "/users/#{user.id}" }
     it "routes to #index" do
-      expect(:get => "/transfers").to route_to("transfers#index")
+      expect(:get => path + "/transfers").to route_to("transfers#index")
     end
 
-
     it "routes to #show" do
-      expect(:get => "/transfers/1").to route_to("transfers#show", :id => "1")
+      expect(:get => path + "/transfers/#{transfer.id}").to route_to("transfers#show", :id => transfer.id )
     end
 
 
     it "routes to #create" do
-      expect(:post => "/transfers").to route_to("transfers#create")
+      expect(:post => path + "/transfers").to route_to("transfers#create")
     end
 
     it "routes to #update via PUT" do
-      expect(:put => "/transfers/1").to route_to("transfers#update", :id => "1")
+      expect(:put => path + "/transfers/#{transfer.id}").to route_to("transfers#update", :id => transfer.id )
     end
 
     it "routes to #update via PATCH" do
-      expect(:patch => "/transfers/1").to route_to("transfers#update", :id => "1")
+      expect(:patch => path + "/transfers/#{transfer.id}").to route_to("transfers#update", :id => transfer.id )
     end
 
     it "routes to #destroy" do
-      expect(:delete => "/transfers/1").to route_to("transfers#destroy", :id => "1")
+      expect(:delete => path + "/transfers/#{transfer.id}").to route_to("transfers#destroy", :id => transfer.id )
     end
 
   end
