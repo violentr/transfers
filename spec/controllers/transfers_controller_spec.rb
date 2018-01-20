@@ -136,9 +136,10 @@ RSpec.describe TransfersController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested transfer" do
-      transfer = Transfer.create! valid_attributes
+      user = create(:user)
+      transfer = create(:transfer, user_id: user.id)
       expect {
-        delete :destroy, params: {id: transfer.to_param}, session: valid_session
+        delete :destroy, params: {user_id: user.id, id: transfer.to_param}
       }.to change(Transfer, :count).by(-1)
     end
   end
