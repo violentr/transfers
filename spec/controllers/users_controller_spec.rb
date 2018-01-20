@@ -8,7 +8,7 @@ RSpec.describe UsersController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    {name: 'Michail', fullname: 'Michail Jackson', gae: '45'}
+    {name: 'Michail', fullname: 'Michail Jackson', age: '45'}
   }
 
   let(:valid_session) { {} }
@@ -105,9 +105,9 @@ RSpec.describe UsersController, type: :controller do
 
     context "with invalid params" do
       it "renders a JSON response with errors for the user" do
-        user = User.create! valid_attributes
+        user = create(:user)
 
-        put :update, params: {id: user.to_param, user: invalid_attributes}, session: valid_session
+        put :update, params: {id: user.to_param, user: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
