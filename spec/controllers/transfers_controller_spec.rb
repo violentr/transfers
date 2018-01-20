@@ -49,9 +49,17 @@ RSpec.describe TransfersController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      transfer = Transfer.create! valid_attributes
-      get :show, params: {id: transfer.to_param}, session: valid_session
+      user = create(:user)
+      transfer = create(:transfer, user_id: user.id)
+      get :show, params: {user_id: user.id, id: transfer.to_param}
       expect(response).to be_success
+    end
+    it "returns Transfer attributes" do
+      user = create(:user)
+      transfer = create(:transfer, user_id: user.id)
+      get :show, params: {user_id: user.id, id: transfer.to_param}
+      output = json_parser(response.body)
+      expect(output.keys).to eq(transfer_attributes)
     end
   end
 
