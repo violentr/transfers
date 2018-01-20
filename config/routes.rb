@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  resources :users do
+  resources :users, only: [] do
     resources :transfers
   end
+
+  post '/users/register', controller: 'users', action: 'register'
   #
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
