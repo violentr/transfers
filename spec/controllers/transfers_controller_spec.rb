@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe TransfersController, type: :controller do
 
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    build(:transfer)
   }
 
   let(:invalid_attributes) {
@@ -12,11 +12,38 @@ RSpec.describe TransfersController, type: :controller do
 
   let(:valid_session) { {} }
 
+  def json_parser(json)
+    JSON.parse(json)
+  end
+
+  def transfer_attributes
+    ["id", "account_number_from",
+     "account_number_to",
+     "amount_pennies",
+     "country_code_from",
+     "country_code_to",
+     "created_at",
+     "updated_at",
+     "user_id"]
+  end
+
   describe "GET #index" do
+
     it "returns a success response" do
-      transfer = Transfer.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      user = create(:user)
+      create(:transfer, user_id: user.id)
+      get :index, params: {user_id: user.id}
       expect(response).to be_success
+    end
+
+    it "returns Array of Transfer attributes" do
+      user = create(:user)
+      create(:transfer, user_id: user.id)
+      get :index, params: {user_id: user.id}
+      output = json_parser(response.body)
+      expect(output).to be_a(Array)
+      expect(output.first).to be_a(Hash)
+      expect(output.first.keys).to eq(transfer_attributes)
     end
   end
 
