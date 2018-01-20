@@ -23,8 +23,6 @@ RSpec.describe TransfersController, type: :controller do
      "amount_pennies",
      "country_code_from",
      "country_code_to",
-     "created_at",
-     "updated_at",
      "user_id"]
   end
 
@@ -97,22 +95,30 @@ RSpec.describe TransfersController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {"account_number_from"=>"BE7885059985736167",
+         "account_number_to"=>"BE2963957876070892",
+         "amount_pennies"=>0, "country_code_from"=>"VIR",
+         "country_code_to"=>"BRB"}
       }
 
       it "updates the requested transfer" do
-        transfer = Transfer.create! valid_attributes
-        put :update, params: {id: transfer.to_param, transfer: new_attributes}, session: valid_session
+        user = create(:user)
+        transfer = create(:transfer, user_id: user.id)
+        put :update, params: {user_id: user.id, id: transfer.to_param, transfer: new_attributes}
         transfer.reload
-        skip("Add assertions for updated state")
+        expect(Transfer.first.country_code_from).to eq('VIR')
+        expect(Transfer.first.country_code_to).to eq('BRB')
       end
 
       it "renders a JSON response with the transfer" do
-        transfer = Transfer.create! valid_attributes
+        user = create(:user)
+        transfer = create(:transfer, user_id: user.id)
 
-        put :update, params: {id: transfer.to_param, transfer: valid_attributes}, session: valid_session
+        put :update, params: {user_id: user.id, id: transfer.to_param, transfer: valid_attributes}
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to eq('application/json')
+        output = json_parser(response.body)
+        expect(output.keys).to eq(transfer_attributes)
       end
     end
 
