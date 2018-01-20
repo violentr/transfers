@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe TransfersController, type: :controller do
 
   let(:valid_attributes) {
-    build(:transfer)
+    user = create(:user)
+    build(:transfer, user_id: user.id).attributes
   }
 
   let(:invalid_attributes) {
@@ -66,17 +67,19 @@ RSpec.describe TransfersController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Transfer" do
+        user = create(:user)
         expect {
-          post :create, params: {transfer: valid_attributes}, session: valid_session
+          post :create, params: {user_id: user.id, transfer: valid_attributes}
         }.to change(Transfer, :count).by(1)
       end
 
       it "renders a JSON response with the new transfer" do
+        user = create(:user)
+        post :create, params: {user_id: user.id, transfer: valid_attributes}
 
-        post :create, params: {transfer: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(transfer_url(Transfer.last))
+        expect(response.location).to eq(user_transfer_url(user, Transfer.last))
       end
     end
 
