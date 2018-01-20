@@ -68,7 +68,7 @@ RSpec.describe TransfersController, type: :controller do
         user = create(:user)
         expect {
           post :create, params: {user_id: user.id, transfer: valid_attributes}
-        }.to change(Transfer, :count).by(1)
+        }.to change(user.transfers, :count).by(1)
       end
 
       it "renders a JSON response with the new transfer" do
@@ -77,7 +77,7 @@ RSpec.describe TransfersController, type: :controller do
 
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(user_transfer_url(user, Transfer.last))
+        expect(response.location).to eq(user_transfer_url(user, user.transfers.last))
       end
     end
 
@@ -106,8 +106,8 @@ RSpec.describe TransfersController, type: :controller do
         transfer = create(:transfer, user_id: user.id)
         put :update, params: {user_id: user.id, id: transfer.to_param, transfer: new_attributes}
         transfer.reload
-        expect(Transfer.first.country_code_from).to eq('VIR')
-        expect(Transfer.first.country_code_to).to eq('BRB')
+        expect(user.transfers.first.country_code_from).to eq('VIR')
+        expect(user.transfers.first.country_code_to).to eq('BRB')
       end
 
       it "renders a JSON response with the transfer" do
@@ -140,7 +140,7 @@ RSpec.describe TransfersController, type: :controller do
       transfer = create(:transfer, user_id: user.id)
       expect {
         delete :destroy, params: {user_id: user.id, id: transfer.to_param}
-      }.to change(Transfer, :count).by(-1)
+      }.to change(user.transfers, :count).by(-1)
     end
   end
 
