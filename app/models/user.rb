@@ -5,4 +5,8 @@ class User < ApplicationRecord
   validates :dob, presence: true
 
   has_many :transfers
+
+  def name
+    "#{first_name} #{last_name}"
+  end
 end

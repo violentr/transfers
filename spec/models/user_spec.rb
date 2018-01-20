@@ -44,4 +44,10 @@ RSpec.describe User, type: :model do
       end
     end
   end
+  describe '#name' do
+    it 'should return first_name + last_name' do
+      user = create(:user, first_name: 'George', last_name: 'Michail')
+      expect(user.name).to eq('George Michail')
+    end
+  end
 end
