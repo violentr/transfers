@@ -16,7 +16,9 @@ RSpec.describe UsersController, type: :controller do
   def json_parser(json)
     JSON.parse(json)
   end
-
+  def user_attributes
+    %w(id first_name last_name address_line_1 dob name age)
+  end
   describe "GET #index" do
     before do
       create_list(:user, 5)
@@ -30,10 +32,9 @@ RSpec.describe UsersController, type: :controller do
     it "returns Array of user attributes" do
       get :index, params: {}
       output = json_parser(response.body)
-      user_atrributes = User.first.attributes
       expect(output).to be_a(Array)
       expect(output.first).to be_a(Hash)
-      expect(output.first.keys).to eq(user_atrributes.keys)
+      expect(output.first.keys).to eq(user_attributes)
     end
   end
 
@@ -47,7 +48,7 @@ RSpec.describe UsersController, type: :controller do
       user = create(:user)
       get :show, params: {id: user.to_param}
       output = json_parser(response.body)
-      expect(output.keys).to eq(user.attributes.keys)
+      expect(output.keys).to eq(user_attributes)
     end
   end
 
@@ -96,10 +97,10 @@ RSpec.describe UsersController, type: :controller do
 
       it "renders a JSON response with the user" do
         user = create(:user)
-        put :update, params: {id: user.to_param, user: valid_attributes}, session: valid_session
+        put :update, params: {id: user.to_param, user: valid_attributes}
 
         output = json_parser(response.body)
-        expect(output.keys).to eq(user.attributes.keys)
+        expect(output.keys).to eq(user_attributes)
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to eq('application/json')
       end
