@@ -8,7 +8,7 @@ RSpec.describe TransfersController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {account: 100, currency: 'usd', country: 'uk'}
   }
 
   let(:valid_session) { {} }
@@ -85,8 +85,9 @@ RSpec.describe TransfersController, type: :controller do
 
     context "with invalid params" do
       it "renders a JSON response with errors for the new transfer" do
+        user = create(:user)
+        post :create, params: {user_id: user.id, transfer: invalid_attributes}
 
-        post :create, params: {transfer: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
