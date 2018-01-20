@@ -13,11 +13,27 @@ RSpec.describe UsersController, type: :controller do
 
   let(:valid_session) { {} }
 
+  def json_parser(json)
+    JSON.parse(json)
+  end
+
   describe "GET #index" do
-    it "returns a success response" do
+    before do
       create_list(:user, 5)
-      get :index, params: {}, session: valid_session
+    end
+
+    it "returns a success response" do
+      get :index, params: {}
       expect(response).to be_success
+    end
+
+    it "returns Array of user attributes" do
+      get :index, params: {}
+      output = json_parser(response.body)
+      user_atrributes = User.first.attributes
+      expect(output).to be_a(Array)
+      expect(output.first).to be_a(Hash)
+      expect(output.first.keys).to eq(user_atrributes.keys)
     end
   end
 
