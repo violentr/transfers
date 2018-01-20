@@ -8,10 +8,14 @@ RSpec.describe Transfer, type: :model do
   model_attributes.each do |attribute|
     it { is_expected.to respond_to(attribute) }
   end
+
+  it { is_expected.to respond_to(:user) }
+
   describe 'model constraits' do
     context "when valid " do
       before do
-        @transfer= create(:transfer)
+        user = create(:user)
+        @transfer= create(:transfer, user_id: user.id)
       end
       model_attributes.each do |attribute|
 
