@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
 
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    build(:user).attributes
   }
 
   let(:invalid_attributes) {
@@ -55,7 +55,7 @@ RSpec.describe UsersController, type: :controller do
     context "with valid params" do
       it "creates a new User" do
         expect {
-          post :create, params: {user: valid_attributes}, session: valid_session
+          post :create, params: {user: valid_attributes}
         }.to change(User, :count).by(1)
       end
 
