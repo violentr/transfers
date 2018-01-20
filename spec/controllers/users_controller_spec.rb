@@ -60,8 +60,8 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it "renders a JSON response with the new user" do
-
         post :create, params: {user: valid_attributes}
+
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
         expect(response.location).to eq(user_url(User.last))
@@ -70,8 +70,8 @@ RSpec.describe UsersController, type: :controller do
 
     context "with invalid params" do
       it "renders a JSON response with errors for the new user" do
-
         post :create, params: {user: invalid_attributes}
+
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
@@ -88,6 +88,7 @@ RSpec.describe UsersController, type: :controller do
       it "updates the requested user" do
         user = create(:user)
         put :update, params: {id: user.to_param, user: new_attributes}
+
         user.reload
         expect(User.first.first_name).to eq('Leanne')
         expect(User.first.last_name).to eq('Sanford')
@@ -96,6 +97,7 @@ RSpec.describe UsersController, type: :controller do
       it "renders a JSON response with the user" do
         user = create(:user)
         put :update, params: {id: user.to_param, user: valid_attributes}, session: valid_session
+
         output = json_parser(response.body)
         expect(output.keys).to eq(user.attributes.keys)
         expect(response).to have_http_status(:ok)
@@ -106,19 +108,19 @@ RSpec.describe UsersController, type: :controller do
     context "with invalid params" do
       it "renders a JSON response with errors for the user" do
         user = create(:user)
-
         put :update, params: {id: user.to_param, user: invalid_attributes}
-        expect(response).to have_http_status(:unprocessable_entity)
+
         expect(response.content_type).to eq('application/json')
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
 
   describe "DELETE #destroy" do
     it "destroys the requested user" do
-      user = User.create! valid_attributes
+      user = create(:user)
       expect {
-        delete :destroy, params: {id: user.to_param}, session: valid_session
+        delete :destroy, params: {id: user.to_param}
       }.to change(User, :count).by(-1)
     end
   end
