@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180120144552) do
+ActiveRecord::Schema.define(version: 20180120212837) do
 
   create_table "transfers", force: :cascade do |t|
     t.string   "account_number_from", null: false
@@ -25,12 +25,15 @@ ActiveRecord::Schema.define(version: 20180120144552) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name",     limit: 20, null: false
-    t.string   "last_name",      limit: 20, null: false
-    t.string   "address_line_1", limit: 50, null: false
-    t.date     "dob",                       null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.string   "first_name",      limit: 20, null: false
+    t.string   "last_name",       limit: 20, null: false
+    t.string   "address_line_1",  limit: 50, null: false
+    t.date     "dob",                        null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "username"
+    t.string   "email"
+    t.string   "password_digest"
   end
 
 end
