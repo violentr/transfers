@@ -50,4 +50,10 @@ RSpec.describe User, type: :model do
       expect(user.name).to eq('George Michail')
     end
   end
+  describe '#age' do
+    it 'should return user age in years' do
+      user = create(:user, dob: Date.new(1981,12,4))
+      expect(user.age).to eq(36)
+    end
+  end
 end

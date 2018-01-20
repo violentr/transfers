@@ -9,4 +9,11 @@ class User < ApplicationRecord
   def name
     "#{first_name} #{last_name}"
   end
+
+  def age
+    now = Date.current
+    age = now.year - dob.year
+    age -= 1 if now.yday < dob.yday
+  end
+
 end
