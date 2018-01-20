@@ -81,20 +81,23 @@ RSpec.describe UsersController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {"first_name"=>"Leanne", "last_name"=>"Sanford",
+         "address_line_1"=>"273 Hoyt Ways", "dob"=>Date.new(1979, 12, 4)}
       }
 
       it "updates the requested user" do
-        user = User.create! valid_attributes
-        put :update, params: {id: user.to_param, user: new_attributes}, session: valid_session
+        user = create(:user)
+        put :update, params: {id: user.to_param, user: new_attributes}
         user.reload
-        skip("Add assertions for updated state")
+        expect(User.first.first_name).to eq('Leanne')
+        expect(User.first.last_name).to eq('Sanford')
       end
 
       it "renders a JSON response with the user" do
-        user = User.create! valid_attributes
-
+        user = create(:user)
         put :update, params: {id: user.to_param, user: valid_attributes}, session: valid_session
+        output = json_parser(response.body)
+        expect(output.keys).to eq(user.attributes.keys)
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to eq('application/json')
       end
