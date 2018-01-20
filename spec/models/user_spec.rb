@@ -8,6 +8,9 @@ RSpec.describe User, type: :model do
   it { is_expected.to respond_to(:address_line_1) }
   it { is_expected.to respond_to(:dob) }
   it { is_expected.to respond_to(:transfers) }
+  it { is_expected.to respond_to(:username) }
+  it { is_expected.to respond_to(:email) }
+  it { is_expected.to respond_to(:password_digest) }
 
   describe "model constraits" do
 

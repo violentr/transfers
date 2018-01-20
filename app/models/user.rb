@@ -3,6 +3,8 @@ class User < ApplicationRecord
   validates :last_name, presence: true, length: { maximum: 20}
   validates :address_line_1, presence: true, length: { maximum: 50}
   validates :dob, presence: true
+  validates_presence_of :username, :email, :password_digest
+  validates :email, uniqueness: true
 
   has_many :transfers
 
