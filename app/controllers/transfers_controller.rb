@@ -51,7 +51,7 @@ class TransfersController < ApplicationController
                   "country_code_from",
                   "country_code_to",
                   "user_id"]
-    params.require(:transfer).permit(attributes)
+    params.permit(attributes)
   end
 
   def set_user
