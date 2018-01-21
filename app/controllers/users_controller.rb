@@ -10,6 +10,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def login
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      render json: {message: :ok}
+    else
+      render json: user,  status: :unprocessable_entity
+    end
+  end
   #
   # Only allow a trusted parameter "white list" through.
   def user_params

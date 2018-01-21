@@ -50,4 +50,22 @@ RSpec.describe UsersController, type: :controller do
       end
     end
   end
+  describe "POST #login" do
+    context "with valid params" do
+      it "output message OK" do
+        user = create(:user, username: 'deniss', password: 'password')
+        post :login, params: {username: user.username, password: user.password}
+        expect(json_parser(response.body)).to eq("message" => "ok")
+      end
+    end
+
+    context "with invalid params" do
+      it "renders a JSON response with errors for the new user" do
+        post :login, params: {username: 'user', password: 'user.password'}
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to eq('application/json')
+      end
+    end
+  end
 end
