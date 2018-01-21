@@ -6,6 +6,7 @@ FactoryBot.define do
    dob Faker::Date.birthday(18, 65)
    sequence(:username) {|u| "username_#{u}" }
    sequence(:email) {|e| "email_user#{e}@example.com"}
-   password_digest SecureRandom.hex
+   password 'password'
+   password_confirmation 'password'
   end
 end
