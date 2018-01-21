@@ -10,6 +10,7 @@ gem 'puma', '~> 3.0'
 gem 'faker'
 gem 'active_model_serializers'
 gem 'bcrypt'
+gem 'simple_command'
 #
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
