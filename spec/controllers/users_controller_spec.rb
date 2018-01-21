@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 RSpec.describe UsersController, type: :controller do
 
   let(:valid_attributes) {
@@ -52,10 +51,11 @@ RSpec.describe UsersController, type: :controller do
   end
   describe "POST #login" do
     context "with valid params" do
-      it "output message OK" do
+      it "output message with authorization token" do
         user = create(:user, username: 'deniss', password: 'password')
         post :login, params: {username: user.username, password: user.password}
-        expect(json_parser(response.body)).to eq("message" => "ok")
+        output = json_parser(response.body)
+        expect(output.keys).to eq(["token", "message"])
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe UsersController, type: :controller do
       it "renders a JSON response with errors for the new user" do
         post :login, params: {username: 'user', password: 'user.password'}
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unauthorized)
         expect(response.content_type).to eq('application/json')
       end
     end
